@@ -7,6 +7,12 @@ function formatBytes(bytes,decimals) {
    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
+function formatInUse(inUse) {
+  if (inUse == 'Yes') return 'Used';
+  else if (inUse == 'No') return 'Available';
+  return 'Unknown';
+}
+
 $(document).ready(function() {
   $('#drive-table').DataTable( {
     "ajax": {
@@ -83,7 +89,7 @@ $(document).ready(function() {
 
       dataset.forEach(function(drive) {
         var manufacturer = drive.manufacturer;
-        var inUse = drive.in_use;
+        var inUse = formatInUse(drive.in_use);
         var status = drive.status;
 
 

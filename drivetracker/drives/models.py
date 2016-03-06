@@ -85,3 +85,7 @@ class HardDrive(models.Model):
         return (bitmath.Byte(self.capacity)
                 .best_prefix(bitmath.SI)
                 .format("{value} {unit}"))
+
+    def get_in_use_representation(self):
+        """Converts the in_use boolean to a yes/no for display"""
+        return 'Yes' if self.in_use else 'No'

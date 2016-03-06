@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from rest_framework.fields import SerializerMethodField
+from rest_framework.fields import SerializerMethodField, ReadOnlyField
 
 from drivetracker.drives.models import HardDrive
 
 
 class HardDriveSerializer(serializers.ModelSerializer):
     capacity = SerializerMethodField('_get_capacity_representation')
-    in_use = SerializerMethodField('_get_in_use_representation')
+    in_use = ReadOnlyField(source='get_in_use_representation')
 
     class Meta:
         model = HardDrive
@@ -19,8 +19,3 @@ class HardDriveSerializer(serializers.ModelSerializer):
         if self.context['representation'] == 'original':
             return obj.capacity
         return obj.get_capacity_representation()
-
-    def _get_in_use_representation(self, obj):
-        if self.context['representation'] == 'original':
-            return obj.in_use
-        return obj.get_in_use_representation()

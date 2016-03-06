@@ -83,11 +83,12 @@ $(document).ready(function() {
 
       dataset.forEach(function(drive) {
         var manufacturer = drive.manufacturer;
-        var in_use = drive.in_use == null || drive.in_use == false ? 'Available' : 'In Use';
+        var inUse = drive.in_use;
         var status = drive.status;
 
+
         manufacturers[manufacturer] = manufacturers[manufacturer] ? manufacturers[manufacturer] + 1 : 1;
-        capacities[in_use] = capacities[in_use] ? capacities[in_use] + drive.capacity : drive.capacity;
+        capacities[inUse] = capacities[inUse] ? capacities[inUse] + drive.capacity : drive.capacity;
         statuses[status] = statuses[status] ? statuses[status] + 1 : 1;
       });
 
@@ -126,7 +127,7 @@ $(document).ready(function() {
       })
 
       /* Draw the graph for the Capacity Graph */
-      var capacity_path = capacitySvg.selectAll('path')
+      var capacityPath = capacitySvg.selectAll('path')
         .data(pie(capacities))
         .enter()
         .append('path')
@@ -136,12 +137,12 @@ $(document).ready(function() {
         });
 
       /* Add tooltips to the Capacity Graph */
-      capacity_path.each(function(d,i) {
+      capacityPath.each(function(d,i) {
         var total = d3.sum(capacities.map(function(d) {
           return d.count;
         }));
         var percent = Math.round(1000 * d.data.count / total) / 10;
-        var popover = $(capacity_path[0][i]).popover({
+        var popover = $(capacityPath[0][i]).popover({
           'container': 'body',
           'title': d.data.label,
           'content': percent + '% of ' + formatBytes(total),

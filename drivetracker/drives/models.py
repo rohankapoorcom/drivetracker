@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 
 from random import randint
+import bitmath
 
 
 def generate_id():
@@ -58,8 +59,7 @@ class HardDrive(models.Model):
     manufacturer = models.CharField(max_length=100, blank=True)
     model = models.CharField(max_length=100, blank=True)
     serial = models.CharField(max_length=100, blank=True)
-    capacity = models.IntegerField(blank=True, null=True)
-    capacity_unit = models.CharField(max_length=3, blank=True)
+    capacity = models.BigIntegerField(blank=True, null=True)  # stored as bytes
     media_type = models.CharField(max_length=4,
                                   blank=True, choices=MEDIA_TYPE_CHOICES)
     interface = models.CharField(max_length=4,
@@ -75,3 +75,13 @@ class HardDrive(models.Model):
     service_start_date = models.DateTimeField(blank=True, null=True)
     service_end_date = models.DateTimeField(blank=True, null=True)
     notes = models.TextField(blank=True)
+
+    def get_capacity_representation(self):
+        """
+        Converts the capacity in bytes to the appropriate value for display
+        """
+        if not self.capacity:
+            return''
+        return (bitmath.Byte(self.capacity)
+                .best_prefix(bitmath.SI)
+                .format("{value} {unit}"))

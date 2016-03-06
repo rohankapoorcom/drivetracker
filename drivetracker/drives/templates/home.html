@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block head %}
+<title>Test</title>
+<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+<link href="{% static 'css/datatables.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <<!-- div class="col-sm-3 col-md-2 sidebar">
+      <ul class="nav nav-sidebar">
+        <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Reports</a></li>
+        <li><a href="#">Analytics</a></li>
+        <li><a href="#">Export</a></li>
+      </ul>
+      <ul class="nav nav-sidebar">
+        <li><a href="">Nav item</a></li>
+        <li><a href="">Nav item again</a></li>
+        <li><a href="">One more nav</a></li>
+        <li><a href="">Another nav item</a></li>
+        <li><a href="">More navigation</a></li>
+      </ul>
+      <ul class="nav nav-sidebar">
+        <li><a href="">Nav item again</a></li>
+        <li><a href="">One more nav</a></li>
+        <li><a href="">Another nav item</a></li>
+      </ul>
+    </div> -->
+    <div class="col-sm-12 col-md-12 main">
+      <!-- <h1 class="page-header">Dashboard</h1> -->
+
+      <div class="row placeholders">
+        <div class="col-xs-6 col-sm-3 placeholder">
+          <div id="manufacturer-graph" class="chart">
+          </div>
+          <h4>Manufacturers</h4>
+          <!-- <span class="text-muted">Something else</span> -->
+        </div>
+        <div class="col-xs-6 col-sm-3 placeholder">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+          <h4>Label</h4>
+          <span class="text-muted">Something else</span>
+        </div>
+        <div class="col-xs-6 col-sm-3 placeholder">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+          <h4>Label</h4>
+          <span class="text-muted">Something else</span>
+        </div>
+        <div class="col-xs-6 col-sm-3 placeholder">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+          <h4>Label</h4>
+          <span class="text-muted">Something else</span>
+        </div>
+      </div>
+
+      <h2 class="sub-header">Section title</h2>
+      <!-- <div class="table-responsive"> -->
+        <table class="table table-striped display responsive nowrap" id="drive-table" width="100%">
+          <thead>
+            <tr>
+              <th data-priority="1">ID</th>
+              <th>Host</th>
+              <th data-priority="2">Serial</th>
+              <th>Type</th>
+              <th>In Use?</th>
+              <th>Status</th>
+              <th data-priority="3">Manufacturer's</th>
+              <th>Model</th>
+              <th>Capacity</th>
+              <th>Interface</th>
+              <th>RPM</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      <!-- </div> -->
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/datatables.min.js' %}"></script>
+<script>
+$(document).ready(function() {
+  $('#drive-table').DataTable( {
+    "ajax": {
+      url: "{% url 'api_drives_list' %}",
+      dataSrc: ''
+    },
+    "columns": [
+      {"data": "id"},
+      {"data": "host"},
+      {"data": "serial"},
+      {"data": "media_type"},
+      {"data": "in_use"},
+      {"data": "status"},
+      {"data": "manufacturer"},
+      {"data": "model"},
+      {"data": "capacity"},
+      {"data": "interface"},
+      {"data": "rpm"}
+    ]
+  });
+
+  $('#drive-table tbody').on('click', 'tr', function() {
+    var table = $('#drive-table').DataTable();
+    var data = table.row(this).data().id;
+    console.log(data);
+  });
+  (function(d3) {
+    'use strict';
+    var width = 200;
+    var height = 200;
+    var radius = Math.min(width, height) / 2;
+    var donutWidth = 50;
+    var legendRectSize = 18;
+    var legendSpacing = 4;
+
+    var color = d3.scale.category20();
+
+    var svg = d3.select('#manufacturer-graph')
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .append('g')
+      .attr("transform", "translate(" + Math.min(width,height) / 2 + "," + Math.min(width,height) / 2 + ")");
+
+    var arc = d3.svg.arc()
+      .innerRadius(radius - donutWidth)
+      .outerRadius(radius);
+
+    var pie = d3.layout.pie()
+      .value(function(d) { return d.count; })
+      .sort(null);
+
+    d3.json("{% url 'api_drives_list' %}?representation=original", function(error, dataset) {
+      var manufacturers = {};
+      dataset.forEach(function(drive) {
+        var manufacturer = drive.manufacturer;
+        manufacturers[manufacturer] = manufacturers[manufacturer] ? manufacturers[manufacturer]+1 : 1;
+      });
+      manufacturers = $.map(manufacturers, function(value, index) {
+        return [{"label": index, "count": value}];
+      });
+
+      var path = svg.selectAll('path')
+        .data(pie(manufacturers))
+        .enter()
+        .append('path')
+        .attr('d', arc)
+        .attr('fill', function(d, i) {
+          return color(d.data.label);
+        });
+
+      path.each(function(d,i) {
+        var total = d3.sum(manufacturers.map(function(d) {
+          return d.count;
+        }));
+        var percent = Math.round(1000 * d.data.count / total) / 10;
+        var popover = $(path[0][i]).popover({
+          'container': 'body',
+          'title': d.data.label,
+          'content': percent + '% of ' + total + ' drives',
+          'trigger': 'hover focus'
+        });
+      })
+
+    });
+  })(window.d3);
+});
+
+</script>
+{% endblock %}

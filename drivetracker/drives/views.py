@@ -18,3 +18,7 @@ class HardDriveList(generics.ListAPIView):
 class HardDriveDetail(generics.RetrieveAPIView):
     queryset = HardDrive.objects.all()
     serializer_class = HardDriveSerializer
+
+
+def home(request):
+    return render(request, 'home.html')

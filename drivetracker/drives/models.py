@@ -87,5 +87,10 @@ class HardDrive(models.Model):
                 .format("{value} {unit}"))
 
     def get_in_use_representation(self):
-        """Converts the in_use boolean to a yes/no for display"""
-        return 'Yes' if self.in_use else 'No'
+        """Converts the in_use boolean to a yes/no/unknown for display"""
+        if self.in_use:
+            return 'Yes'
+        elif self.in_use is None:
+            return 'Unknown'
+        else:
+            return 'No'

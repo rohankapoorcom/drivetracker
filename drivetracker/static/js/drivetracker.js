@@ -68,22 +68,36 @@ $(document).ready(function() {
       .append('g')
       .attr("transform", "translate(" + Math.min(width,height) / 2 + "," + Math.min(width,height) / 2 + ")");
 
+    /* Status Graph */
+    var statusSvg = d3.select('#status-graph')
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .append('g')
+      .attr("transform", "translate(" + Math.min(width,height) / 2 + "," + Math.min(width,height) / 2 + ")");
+
     d3.json(driveAPIUrl + '?representation=original', function(error, dataset) {
       var manufacturers = {};
       var capacities = {};
+      var statuses = {};
 
       dataset.forEach(function(drive) {
         var manufacturer = drive.manufacturer;
         var in_use = drive.in_use == null || drive.in_use == false ? 'Available' : 'In Use';
+        var status = drive.status;
 
         manufacturers[manufacturer] = manufacturers[manufacturer] ? manufacturers[manufacturer] + 1 : 1;
         capacities[in_use] = capacities[in_use] ? capacities[in_use] + drive.capacity : drive.capacity;
+        statuses[status] = statuses[status] ? statuses[status] + 1 : 1;
       });
 
       manufacturers = $.map(manufacturers, function(value, index) {
         return [{"label": index, "count": value}];
       });
       capacities = $.map(capacities, function(value, index) {
+        return [{"label": index, "count": value}]
+      })
+      statuses = $.map(statuses, function(value, index) {
         return [{"label": index, "count": value}]
       })
 
@@ -131,6 +145,30 @@ $(document).ready(function() {
           'container': 'body',
           'title': d.data.label,
           'content': percent + '% of ' + formatBytes(total),
+          'trigger': 'hover focus'
+        });
+      })
+
+      /* Draw the graph for the Status Graph */
+      var statusPath = statusSvg.selectAll('path')
+        .data(pie(statuses))
+        .enter()
+        .append('path')
+        .attr('d', arc)
+        .attr('fill', function(d, i) {
+          return color(d.data.label);
+        });
+
+      /* Add tooltips to the Capacity Graph */
+      statusPath.each(function(d,i) {
+        var total = d3.sum(statuses.map(function(d) {
+          return d.count;
+        }));
+        var percent = Math.round(1000 * d.data.count / total) / 10;
+        var popover = $(statusPath[0][i]).popover({
+          'container': 'body',
+          'title': d.data.label,
+          'content': percent + '% of ' + total + ' drives',
           'trigger': 'hover focus'
         });
       })

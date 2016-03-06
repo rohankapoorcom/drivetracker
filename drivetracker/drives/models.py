@@ -94,3 +94,12 @@ class HardDrive(models.Model):
             return 'Unknown'
         else:
             return 'No'
+
+    def get_status_representation(self):
+        """Converts the status boolean to a good/dead/unknown for display"""
+        if self.status:
+            return 'Good'
+        elif self.status is None:
+            return 'Unknown'
+        else:
+            return 'Dead'

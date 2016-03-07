@@ -8,6 +8,7 @@ class HardDriveSerializer(serializers.ModelSerializer):
     capacity = SerializerMethodField('_get_capacity_representation')
     in_use = ReadOnlyField(source='get_in_use_representation')
     status = ReadOnlyField(source='get_status_representation')
+    interface = ReadOnlyField(source='get_interface_representation')
 
     class Meta:
         model = HardDrive

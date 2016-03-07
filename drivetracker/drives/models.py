@@ -103,3 +103,9 @@ class HardDrive(models.Model):
             return 'Unknown'
         else:
             return 'Dead'
+
+    def get_interface_representation(self):
+        """Converts the interface '' to unknown for display"""
+        if self.interface is '':
+            return 'Unknown'
+        return self.get_interface_display()

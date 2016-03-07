@@ -19,6 +19,11 @@ class HardDriveDetail(generics.RetrieveAPIView):
     queryset = HardDrive.objects.all()
     serializer_class = HardDriveSerializer
 
+    def get_serializer_context(self, **kwargs):
+        context = super(HardDriveDetail, self).get_serializer_context(**kwargs)
+        context['representation'] = self.request.GET.get('representation')
+        return context
+
 
 def home(request):
     return render(request, 'home.html')

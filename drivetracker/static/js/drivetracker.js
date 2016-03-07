@@ -40,7 +40,7 @@ $(document).ready(function() {
     console.log(data);
   });
   (function(d3) {
-    'use strict';
+    // 'use strict';
     var width = 200,
       height = 200,
       radius = Math.min(width, height) / 2,
@@ -82,20 +82,31 @@ $(document).ready(function() {
       .append('g')
       .attr("transform", "translate(" + Math.min(width,height) / 2 + "," + Math.min(width,height) / 2 + ")");
 
+    /* Interface Graph */
+    var interfaceSvg = d3.select('#interface-graph')
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .append('g')
+      .attr("transform", "translate(" + Math.min(width,height) / 2 + "," + Math.min(width,height) / 2 + ")");
+
     d3.json(driveAPIUrl + '?representation=original', function(error, dataset) {
       var manufacturers = {};
       var capacities = {};
       var statuses = {};
+      var interfaces = {};
 
       dataset.forEach(function(drive) {
         var manufacturer = drive.manufacturer;
         var inUse = formatInUse(drive.in_use);
         var status = drive.status;
+        var interface = drive.interface;
 
 
         manufacturers[manufacturer] = manufacturers[manufacturer] ? manufacturers[manufacturer] + 1 : 1;
         capacities[inUse] = capacities[inUse] ? capacities[inUse] + drive.capacity : drive.capacity;
         statuses[status] = statuses[status] ? statuses[status] + 1 : 1;
+        interfaces[interface] = interfaces[interface] ? interfaces[interface] + 1 : 1;
       });
 
       manufacturers = $.map(manufacturers, function(value, index) {
@@ -105,6 +116,9 @@ $(document).ready(function() {
         return [{"label": index, "count": value}]
       })
       statuses = $.map(statuses, function(value, index) {
+        return [{"label": index, "count": value}]
+      })
+      interfaces = $.map(interfaces, function(value, index) {
         return [{"label": index, "count": value}]
       })
 
@@ -173,6 +187,30 @@ $(document).ready(function() {
         }));
         var percent = Math.round(1000 * d.data.count / total) / 10;
         var popover = $(statusPath[0][i]).popover({
+          'container': 'body',
+          'title': d.data.label,
+          'content': percent + '% of ' + total + ' drives',
+          'trigger': 'hover focus'
+        });
+      })
+
+      /* Draw the graph for the Interface Graph */
+      var interfacePath = interfaceSvg.selectAll('path')
+        .data(pie(interfaces))
+        .enter()
+        .append('path')
+        .attr('d', arc)
+        .attr('fill', function(d, i) {
+          return color(d.data.label);
+        });
+
+      /* Add tooltips to the Capacity Graph */
+      interfacePath.each(function(d,i) {
+        var total = d3.sum(interfaces.map(function(d) {
+          return d.count;
+        }));
+        var percent = Math.round(1000 * d.data.count / total) / 10;
+        var popover = $(interfacePath[0][i]).popover({
           'container': 'body',
           'title': d.data.label,
           'content': percent + '% of ' + total + ' drives',

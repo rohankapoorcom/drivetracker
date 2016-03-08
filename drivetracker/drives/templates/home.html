@@ -1,82 +1,118 @@
-{% extends "base.html" %}
 {% load staticfiles %}
-{% block head %}
-<title>Test</title>
-<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
-<link href="{% static 'css/datatables.min.css' %}" rel="stylesheet">
-{% endblock %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+    <link href="{% static 'css/datatables.min.css' %}" rel="stylesheet">
+    <title>Drive Tracker</title>
+  </head>
 
-{% block content %}
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-12 col-md-12 main">
-
-      <div class="row placeholders">
-        <div class="col-xs-6 col-sm-3 placeholder">
-          <div id="manufacturer-graph" class="chart">
-          </div>
-          <h4>Manufacturers</h4>
+  <body>
+  <!-- Navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'drives_home' %}">Drive Tracker</a>
         </div>
-        <div class="col-xs-6 col-sm-3 placeholder">
-          <div id="capacity-graph" class="chart">
-          </div>
-          <h4>Capacity</h4>
-        </div>
-        <div class="col-xs-6 col-sm-3 placeholder">
-          <div id="status-graph" class="chart">
-          </div>
-          <h4>Status</h4>
-        </div>
-        <div class="col-xs-6 col-sm-3 placeholder">
-          <div id="interface-graph" class="chart">
-          </div>
-          <h4>Interface</h4>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" data-toggle="modal" data-target="#add-new-drive-modal">Add New Drive</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
         </div>
       </div>
+    </nav>
 
-      <h2 class="sub-header">Section title</h2>
-        <table class="table table-striped display responsive nowrap" id="drive-table" width="100%">
-          <thead>
-            <tr>
-              <th data-priority="1">ID</th>
-              <th>Host</th>
-              <th data-priority="2">Serial</th>
-              <th>Type</th>
-              <th>In Use?</th>
-              <th>Status</th>
-              <th data-priority="3">Manufacturer's</th>
-              <th>Model</th>
-              <th>Capacity</th>
-              <th>Interface</th>
-              <th>RPM</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-      <!-- </div> -->
+    <!-- Main Body -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 main">
+
+          <div class="row placeholders">
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <div id="manufacturer-graph" class="chart">
+              </div>
+              <h4>Manufacturers</h4>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <div id="capacity-graph" class="chart">
+              </div>
+              <h4>Capacity</h4>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <div id="status-graph" class="chart">
+              </div>
+              <h4>Status</h4>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <div id="interface-graph" class="chart">
+              </div>
+              <h4>Interface</h4>
+            </div>
+          </div>
+
+          <h2 class="sub-header">Section title</h2>
+            <table class="table table-striped display responsive nowrap" id="drive-table" width="100%">
+              <thead>
+                <tr>
+                  <th data-priority="1">ID</th>
+                  <th>Host</th>
+                  <th data-priority="2">Serial</th>
+                  <th>Type</th>
+                  <th>In Use?</th>
+                  <th>Status</th>
+                  <th data-priority="3">Manufacturer's</th>
+                  <th>Model</th>
+                  <th>Capacity</th>
+                  <th>Interface</th>
+                  <th>RPM</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          <!-- </div> -->
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-{% endblock %}
 
-{% block scripts %}
-<script src="{% static 'js/datatables.min.js' %}"></script>
-<script>
-var driveAPIUrl = "{% url 'api_drives_list' %}";
-</script>
-<script src="{% static 'js/drivetracker.js' %}"></script>
-{% endblock %}
+
+
+    <script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/d3.min.js' %}"></script>
+    <script src="{% static 'js/datatables.min.js' %}"></script>
+    <script>
+    var driveAPIUrl = "{% url 'api_drives_list' %}";
+    </script>
+    <script src="{% static 'js/drivetracker.js' %}"></script>
+  </body>
+</html>

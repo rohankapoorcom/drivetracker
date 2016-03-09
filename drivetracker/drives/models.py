@@ -55,7 +55,7 @@ class HardDrive(models.Model):
     )
 
     id = models.BigIntegerField(primary_key=True, default=generate_id)
-    host = models.CharField(max_length=100)
+    host = models.CharField(max_length=100, blank=True)
     manufacturer = models.CharField(max_length=100, blank=True)
     model = models.CharField(max_length=100, blank=True)
     serial = models.CharField(max_length=100, blank=True)

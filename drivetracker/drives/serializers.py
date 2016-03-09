@@ -5,6 +5,9 @@ from drivetracker.drives.models import HardDrive
 
 
 class HardDriveSerializer(serializers.ModelSerializer):
+    host = serializers.StringRelatedField()
+    manufacturer = serializers.StringRelatedField()
+    model = serializers.StringRelatedField()
     capacity = SerializerMethodField('_get_capacity_representation')
     in_use = ReadOnlyField(source='get_in_use_representation')
     status = ReadOnlyField(source='get_status_representation')

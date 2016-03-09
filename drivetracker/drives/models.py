@@ -14,6 +14,30 @@ def generate_id():
     return candidate
 
 
+class Host(models.Model):
+    """Represents a host that holds hard drives"""
+    name = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.name
+
+
+class Manufacturer(models.Model):
+    """Represents a maker of hard drives"""
+    name = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.name
+
+
+class Model(models.Model):
+    """Represents a model of hard drive"""
+    name = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.name
+
+
 class HardDrive(models.Model):
     """
     Represents a hard drive and stores all types of relevant information
@@ -55,9 +79,10 @@ class HardDrive(models.Model):
     )
 
     id = models.BigIntegerField(primary_key=True, default=generate_id)
-    host = models.CharField(max_length=100, blank=True)
-    manufacturer = models.CharField(max_length=100, blank=True)
-    model = models.CharField(max_length=100, blank=True)
+    host = models.ForeignKey(Host, on_delete=models.SET_NULL, null=True)
+    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.SET_NULL,
+                                     null=True)
+    model = models.ForeignKey(Model, on_delete=models.SET_NULL, null=True)
     serial = models.CharField(max_length=100, blank=True)
     capacity = models.BigIntegerField(blank=True, null=True)  # stored as bytes
     media_type = models.CharField(max_length=4,

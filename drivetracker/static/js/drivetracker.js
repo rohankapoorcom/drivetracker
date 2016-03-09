@@ -262,6 +262,7 @@ $(document).ready(function() {
   $('#add-new-drive-modal').on('hidden.bs.modal', function () {
     $('#drive-table').DataTable().ajax.reload();
     drawGraphs();
+    $('#hard-drive-form')[0].reset();
   });
 
   drawGraphs();

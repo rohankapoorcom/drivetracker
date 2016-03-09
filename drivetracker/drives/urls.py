@@ -9,6 +9,8 @@ urlpatterns = [
         name='api_drives_list'),
     url(r'^api/drives/(?P<pk>[0-9]+)/$', views.HardDriveDetail.as_view(),
         name='api_drives_detail'),
+    url(r'^api/drives/submit/$', views.save_hard_drive_form,
+        name='api_drives_submit'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

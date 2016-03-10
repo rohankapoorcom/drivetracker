@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.core.context_processors import csrf
+from django.template.context_processors import csrf
 from crispy_forms.utils import render_crispy_form
 from jsonview.decorators import json_view
 from rest_framework import generics

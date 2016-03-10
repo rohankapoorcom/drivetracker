@@ -30,3 +30,4 @@ class HardDriveForm(ModelForm):
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-8'
         self.helper.form_id = 'hard-drive-form'
+        self.helper.include_media = False

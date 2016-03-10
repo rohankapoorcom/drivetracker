@@ -16,7 +16,6 @@
   </head>
 
   <body>
-  <script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>
   <!-- Navbar -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
@@ -124,8 +123,7 @@
         </div>
       </div>
     </div>
-
-
+    <script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/d3.min.js' %}"></script>
     <script src="{% static 'js/datatables.min.js' %}"></script>
@@ -135,5 +133,6 @@
     var submitDriveUrl = "{% url 'api_drives_submit' %}";
     </script>
     <script src="{% static 'js/drivetracker.js' %}"></script>
+    {{ hard_drive_form.media }}
   </body>
 </html>

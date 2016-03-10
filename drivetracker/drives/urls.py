@@ -11,6 +11,15 @@ urlpatterns = [
         name='api_drives_detail'),
     url(r'^api/drives/submit/$', views.save_hard_drive_form,
         name='api_drives_submit'),
+    url(r'^api/drives/autocomplete/hosts/$',
+        views.HostAutoComplete.as_view(create_field='name'),
+        name='api_drives_autocomplete_hosts'),
+    url(r'^api/drives/autocomplete/manufacturers/$',
+        views.ManufacturerAutoComplete.as_view(create_field='name'),
+        name='api_drives_autocomplete_manufacturers'),
+    url(r'^api/drives/autocomplete/models/$',
+        views.ModelAutoComplete.as_view(create_field='name'),
+        name='api_drives_autocomplete_models'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

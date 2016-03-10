@@ -266,4 +266,7 @@ $(document).ready(function() {
   });
 
   drawGraphs();
+
+  // Allow autocomplete to work inside the Bootstrap Modal
+  $.fn.modal.Constructor.prototype.enforceFocus = function() {};
 });

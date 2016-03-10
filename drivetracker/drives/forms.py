@@ -1,6 +1,5 @@
 from django.forms import ModelForm
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
 from dal import autocomplete
 
 import drivetracker.drives.models as models

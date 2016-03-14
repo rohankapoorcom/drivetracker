@@ -16,7 +16,7 @@ def generate_id():
 
 class Host(models.Model):
     """Represents a host that holds hard drives"""
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
 
     def __unicode__(self):
         return self.name
@@ -24,7 +24,7 @@ class Host(models.Model):
 
 class Manufacturer(models.Model):
     """Represents a maker of hard drives"""
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
 
     def __unicode__(self):
         return self.name
@@ -32,7 +32,7 @@ class Manufacturer(models.Model):
 
 class Model(models.Model):
     """Represents a model of hard drive"""
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
 
     def __unicode__(self):
         return self.name

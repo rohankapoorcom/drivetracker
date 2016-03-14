@@ -276,7 +276,7 @@ $(document).ready(function() {
   });
 
   $('#add-new-drive-modal').on('hidden.bs.modal', function() {
-    $('#drive-table').DataTable().ajax.reload();
+    $('#drive-table').DataTable().ajax.reload(null, false);
     drawGraphs();
     $('#add-new-drive-modal-label').text('Add New Drive');
     var form = $('#hard-drive-form');

@@ -17,6 +17,8 @@ SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+CRISPY_FAIL_SILENTLY = not DEBUG
+WHITENOISE_AUTOREFRESH = DEBUG
 
 ALLOWED_HOSTS = []
 

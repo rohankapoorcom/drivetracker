@@ -53,6 +53,8 @@ class HardDriveForm(ModelForm):
     def clean(self):
         cleaned_data = super(HardDriveForm, self).clean()
         capacity = cleaned_data.get('capacity', 0)
+        if capacity is None:
+            capacity = 0
         unit = cleaned_data.get('unit', '')
         obj = bitmath.parse_string('{}{}'.format(capacity, unit))
         cleaned_data['capacity'] = obj.to_Byte().value

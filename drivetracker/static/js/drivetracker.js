@@ -263,6 +263,14 @@ $(document).ready(function() {
     $('#drive-table').DataTable().ajax.reload();
     drawGraphs();
     $('#hard-drive-form')[0].reset();
+    var form = $('#hard-drive-form');
+    $.ajax({
+      url: driveFormUrl,
+      type: "GET",
+      success: function(data) {
+        $(form).replaceWith(data['form_html']);
+      }
+    });
   });
 
   drawGraphs();

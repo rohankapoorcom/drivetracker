@@ -16,6 +16,11 @@ class HardDriveForm(ModelForm):
     unit = forms.ChoiceField(choices=get_capacity_units())
 
     class Meta:
+        STATUS_CHOICES = (
+            (None, 'Unknown'),
+            (True, 'Good'),
+            (False, 'Dead')
+        )
         model = models.HardDrive
         fields = ['host', 'manufacturer', 'model', 'serial', 'capacity',
                   'unit', 'media_type', 'interface', 'form_factor', 'rpm',
@@ -29,6 +34,7 @@ class HardDriveForm(ModelForm):
                 url='api_drives_autocomplete_manufacturers'),
             'model': autocomplete.ModelSelect2(
                 url='api_drives_autocomplete_models'),
+            'status': forms.Select(choices=STATUS_CHOICES),
             'purchase_date': forms.DateInput(format='%m/%d/%Y'),
             'warranty_date': forms.DateInput(format='%m/%d/%Y'),
             'service_start_date': forms.DateInput(format='%m/%d/%Y'),

@@ -1,4 +1,4 @@
-/* Magic Django Solution for CSRF Token Validation */
+// Magic Django Solution for CSRF Token Validation
 var csrftoken = Cookies.get('csrftoken');
 function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
@@ -39,7 +39,7 @@ function drawGraphs () {
         legendSpacing = 4,
         color = d3.scale.category20();
 
-      /* Common graphing variables */
+      // Common graphing variables
       var arc = d3.svg.arc()
         .innerRadius(radius - donutWidth)
         .outerRadius(radius);
@@ -48,7 +48,7 @@ function drawGraphs () {
         .value(function(d) { return d.count; })
         .sort(null);
 
-      /* Manufacturer's Graph */
+      // Manufacturer's Graph
       var manufacturersSvg = d3.select('#manufacturer-graph')
         .append('svg')
         .attr('width', width)
@@ -56,7 +56,7 @@ function drawGraphs () {
         .append('g')
         .attr("transform", "translate(" + Math.min(width,height) / 2 + "," + Math.min(width,height) / 2 + ")");
 
-      /* Capacity Graph */
+      // Capacity Graph
       var capacitySvg = d3.select('#capacity-graph')
         .append('svg')
         .attr('width', width)
@@ -64,7 +64,7 @@ function drawGraphs () {
         .append('g')
         .attr("transform", "translate(" + Math.min(width,height) / 2 + "," + Math.min(width,height) / 2 + ")");
 
-      /* Status Graph */
+      // Status Graph
       var statusSvg = d3.select('#status-graph')
         .append('svg')
         .attr('width', width)
@@ -72,7 +72,7 @@ function drawGraphs () {
         .append('g')
         .attr("transform", "translate(" + Math.min(width,height) / 2 + "," + Math.min(width,height) / 2 + ")");
 
-      /* Interface Graph */
+      // Interface Graph
       var interfaceSvg = d3.select('#interface-graph')
         .append('svg')
         .attr('width', width)
@@ -112,7 +112,7 @@ function drawGraphs () {
           return [{"label": index, "count": value}]
         })
 
-        /* Draw the graph for the Manufacturer's Graph */
+        // Draw the graph for the Manufacturer's Graph
         var manufacturersPath = manufacturersSvg.selectAll('path')
           .data(pie(manufacturers))
           .enter()
@@ -122,7 +122,7 @@ function drawGraphs () {
             return color(d.data.label);
           });
 
-        /* Add tooltips to the Manufacturer's Graph */
+        // Add tooltips to the Manufacturer's Graph
         manufacturersPath.each(function(d,i) {
           var total = d3.sum(manufacturers.map(function(d) {
             return d.count;
@@ -136,7 +136,7 @@ function drawGraphs () {
           });
         })
 
-        /* Draw the graph for the Capacity Graph */
+        // Draw the graph for the Capacity Graph
         var capacityPath = capacitySvg.selectAll('path')
           .data(pie(capacities))
           .enter()
@@ -146,7 +146,7 @@ function drawGraphs () {
             return color(d.data.label);
           });
 
-        /* Add tooltips to the Capacity Graph */
+        // Add tooltips to the Capacity Graph
         capacityPath.each(function(d,i) {
           var total = d3.sum(capacities.map(function(d) {
             return d.count;
@@ -160,7 +160,7 @@ function drawGraphs () {
           });
         })
 
-        /* Draw the graph for the Status Graph */
+        // Draw the graph for the Status Graph
         var statusPath = statusSvg.selectAll('path')
           .data(pie(statuses))
           .enter()
@@ -170,7 +170,7 @@ function drawGraphs () {
             return color(d.data.label);
           });
 
-        /* Add tooltips to the Capacity Graph */
+        // Add tooltips to the Capacity Graph
         statusPath.each(function(d,i) {
           var total = d3.sum(statuses.map(function(d) {
             return d.count;
@@ -184,7 +184,7 @@ function drawGraphs () {
           });
         })
 
-        /* Draw the graph for the Interface Graph */
+        // Draw the graph for the Interface Graph
         var interfacePath = interfaceSvg.selectAll('path')
           .data(pie(interfaces))
           .enter()
@@ -194,7 +194,7 @@ function drawGraphs () {
             return color(d.data.label);
           });
 
-        /* Add tooltips to the Capacity Graph */
+        // Add tooltips to the Capacity Graph
         interfacePath.each(function(d,i) {
           var total = d3.sum(interfaces.map(function(d) {
             return d.count;

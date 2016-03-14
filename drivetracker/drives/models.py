@@ -95,10 +95,10 @@ class HardDrive(models.Model):
     position = models.CharField(max_length=100, blank=True)
     in_use = models.NullBooleanField(blank=True)
     status = models.NullBooleanField(blank=True)
-    purchase_date = models.DateTimeField(blank=True, null=True)
-    warranty_date = models.DateTimeField(blank=True, null=True)
-    service_start_date = models.DateTimeField(blank=True, null=True)
-    service_end_date = models.DateTimeField(blank=True, null=True)
+    purchase_date = models.DateField(blank=True, null=True)
+    warranty_date = models.DateField(blank=True, null=True)
+    service_start_date = models.DateField(blank=True, null=True)
+    service_end_date = models.DateField(blank=True, null=True)
     notes = models.TextField(blank=True)
 
     def get_capacity_representation(self):

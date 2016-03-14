@@ -29,6 +29,10 @@ class HardDriveForm(ModelForm):
                 url='api_drives_autocomplete_manufacturers'),
             'model': autocomplete.ModelSelect2(
                 url='api_drives_autocomplete_models'),
+            'purchase_date': forms.DateInput(format='%m/%d/%Y'),
+            'warranty_date': forms.DateInput(format='%m/%d/%Y'),
+            'service_start_date': forms.DateInput(format='%m/%d/%Y'),
+            'service_end_date': forms.DateInput(format='%m/%d/%Y'),
         }
 
     def __init__(self, *args, **kwargs):

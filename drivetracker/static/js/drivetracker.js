@@ -275,7 +275,7 @@ $(document).ready(function() {
     });
   });
 
-  $('#add-new-drive-modal').on('hidden.bs.modal', function () {
+  $('#add-new-drive-modal').on('hidden.bs.modal', function() {
     $('#drive-table').DataTable().ajax.reload();
     drawGraphs();
     $('#add-new-drive-modal-label').text('Add New Drive');
@@ -287,6 +287,10 @@ $(document).ready(function() {
         $(form).replaceWith(data['form_html']);
       }
     });
+  });
+
+  $('#add-new-drive-modal').on('show.bs.modal', function() {
+    $('.dateinput').datetimepicker({'format': 'MM/DD/YYYY'});
   });
 
   drawGraphs();

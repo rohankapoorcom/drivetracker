@@ -130,7 +130,7 @@
     <script src="{% static 'js/js.cookie.js' %}"></script>
     <script>
     var driveAPIUrl = "{% url 'api_drives_list' %}";
-    var submitDriveUrl = "{% url 'api_drives_submit' %}";
+    var driveFormUrl = "{% url 'api_drives_form' %}";
     </script>
     <script src="{% static 'js/drivetracker.js' %}"></script>
     {{ hard_drive_form.media }}

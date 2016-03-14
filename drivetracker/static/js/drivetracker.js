@@ -212,6 +212,8 @@ function drawGraphs () {
     })(window.d3);
   }
 
+var lastDriveId = null;
+
 $(document).ready(function() {
   $('#drive-table').DataTable( {
     "ajax": {
@@ -235,14 +237,28 @@ $(document).ready(function() {
 
   $('#drive-table tbody').on('click', 'tr', function() {
     var table = $('#drive-table').DataTable();
-    var data = table.row(this).data().id;
-    console.log(data);
+    lastDriveId = table.row(this).data().id;
+    var form = $('#hard-drive-form');
+    $.ajax({
+      url: driveFormUrl + '/' + lastDriveId + '/',
+      type: "GET",
+      success: function(data) {
+        $(form).replaceWith(data['form_html']);
+        $('#add-new-drive-modal-label').text('Edit Drive ' + lastDriveId);
+        $('#add-new-drive-modal').modal('show');
+      }
+    });
   });
 
   $('#save-hard-drive-button').on('click', function() {
     var form = $('#hard-drive-form');
+    var submissionUrl = driveFormUrl;
+    if (lastDriveId != null) {
+       submissionUrl = driveFormUrl + '/' + lastDriveId + '/';
+       lastDriveId = null;
+    }
     $.ajax({
-      url: submitDriveUrl,
+      url: submissionUrl,
       type: "POST",
       data: $(form).serialize(),
       success: function(data) {
@@ -262,7 +278,7 @@ $(document).ready(function() {
   $('#add-new-drive-modal').on('hidden.bs.modal', function () {
     $('#drive-table').DataTable().ajax.reload();
     drawGraphs();
-    $('#hard-drive-form')[0].reset();
+    $('#add-new-drive-modal-label').text('Add New Drive');
     var form = $('#hard-drive-form');
     $.ajax({
       url: driveFormUrl,

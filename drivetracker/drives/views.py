@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.template.context_processors import csrf
 from crispy_forms.utils import render_crispy_form
 from jsonview.decorators import json_view
@@ -72,13 +72,25 @@ def home(request):
 
 
 @json_view
-def save_hard_drive_form(request):
-    hard_drive_form = HardDriveForm(request.POST or None)
-    if hard_drive_form.is_valid():
-        hard_drive_form.save()
-        return {'success': True}
+def edit_hard_drive_view(request, pk=None):
+    if pk is not None:
+        hd = get_object_or_404(models.HardDrive, pk=pk)
+    else:
+        hd = None
 
     ctx = {}
     ctx.update(csrf(request))
-    form_html = render_crispy_form(hard_drive_form, context=ctx)
-    return {'success': False, 'form_html': form_html}
+
+    if request.method == 'POST':
+        hard_drive_form = HardDriveForm(request.POST or None, instance=hd)
+        if hard_drive_form.is_valid():
+            hard_drive_form.save()
+            return {'success': True}
+
+        form_html = render_crispy_form(hard_drive_form, context=ctx)
+        return {'success': False, 'form_html': form_html}
+
+    elif request.method == 'GET':
+        hard_drive_form = HardDriveForm(instance=hd)
+        form_html = render_crispy_form(hard_drive_form, context=ctx)
+        return {'form_html': form_html}

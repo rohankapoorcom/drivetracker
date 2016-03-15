@@ -48,50 +48,31 @@ function drawGraphs () {
         .value(function(d) { return d.count; })
         .sort(null);
 
-      // Manufacturer's Graph
-      var manufacturersSvg = d3.select('#manufacturer-graph')
-        .append('svg')
-        .attr('width', width)
-        .attr('height', height)
-        .append('g')
-        .attr("transform", "translate(" + Math.min(width,height) / 2 + "," + Math.min(width,height) / 2 + ")");
+      function drawSvg(d3, selector) {
+        return d3.select(selector)
+          .append('svg')
+          .attr('width', width)
+          .attr('height', height)
+          .append('g')
+          .attr("transform", "translate(" + Math.min(width,height) / 2 + "," + Math.min(width,height) / 2 + ")");
+      }
 
-      // Capacity Graph
-      var capacitySvg = d3.select('#capacity-graph')
-        .append('svg')
-        .attr('width', width)
-        .attr('height', height)
-        .append('g')
-        .attr("transform", "translate(" + Math.min(width,height) / 2 + "," + Math.min(width,height) / 2 + ")");
-
-      // Status Graph
-      var statusSvg = d3.select('#status-graph')
-        .append('svg')
-        .attr('width', width)
-        .attr('height', height)
-        .append('g')
-        .attr("transform", "translate(" + Math.min(width,height) / 2 + "," + Math.min(width,height) / 2 + ")");
-
-      // Interface Graph
-      var interfaceSvg = d3.select('#interface-graph')
-        .append('svg')
-        .attr('width', width)
-        .attr('height', height)
-        .append('g')
-        .attr("transform", "translate(" + Math.min(width,height) / 2 + "," + Math.min(width,height) / 2 + ")");
+      var manufacturersSvg = drawSvg(d3, '#manufacturer-graph'),
+        capacitySvg = drawSvg(d3, '#capacity-graph'),
+        statusSvg = drawSvg(d3, '#status-graph'),
+        interfaceSvg = drawSvg(d3, '#interface-graph');
 
       d3.json(driveAPIUrl + '?representation=original', function(error, dataset) {
-        var manufacturers = {};
-        var capacities = {};
-        var statuses = {};
-        var interfaces = {};
+        var manufacturers = {},
+          capacities = {},
+          statuses = {},
+          interfaces = {};
 
         dataset.forEach(function(drive) {
-          var manufacturer = drive.manufacturer;
-          var inUse = formatInUse(drive.in_use);
-          var status = drive.status;
-          var interface = drive.interface;
-
+          var manufacturer = drive.manufacturer,
+            inUse = formatInUse(drive.in_use),
+            status = drive.status,
+            interface = drive.interface;
 
           manufacturers[manufacturer] = manufacturers[manufacturer] ? manufacturers[manufacturer] + 1 : 1;
           capacities[inUse] = capacities[inUse] ? capacities[inUse] + drive.capacity : drive.capacity;
@@ -99,28 +80,31 @@ function drawGraphs () {
           interfaces[interface] = interfaces[interface] ? interfaces[interface] + 1 : 1;
         });
 
-        manufacturers = $.map(manufacturers, function(value, index) {
+        // Maps the object to an array of objects containing labels and counts
+        function mapper(value, index) {
           return [{"label": index, "count": value}];
-        });
-        capacities = $.map(capacities, function(value, index) {
-          return [{"label": index, "count": value}]
-        })
-        statuses = $.map(statuses, function(value, index) {
-          return [{"label": index, "count": value}]
-        })
-        interfaces = $.map(interfaces, function(value, index) {
-          return [{"label": index, "count": value}]
-        })
+        }
+        manufacturers = $.map(manufacturers, mapper);
+        capacities = $.map(capacities, mapper);
+        statuses = $.map(statuses, mapper);
+        interfaces = $.map(interfaces, mapper);
 
-        // Draw the graph for the Manufacturer's Graph
-        var manufacturersPath = manufacturersSvg.selectAll('path')
-          .data(pie(manufacturers))
-          .enter()
-          .append('path')
-          .attr('d', arc)
-          .attr('fill', function(d, i) {
-            return color(d.data.label);
-          });
+        function drawPath(svg, dataArray) {
+          return svg.selectAll('path')
+            .data(pie(dataArray))
+            .enter()
+            .append('path')
+            .attr('d', arc)
+            .attr('fill', function(d, i) {
+              return color(d.data.label);
+            });
+        }
+
+        // Draw the graphs
+        var manufacturersPath = drawPath(manufacturersSvg, manufacturers),
+          capacityPath = drawPath(capacitySvg, capacities),
+          statusPath = drawPath(statusSvg, statuses),
+          interfacePath = drawPath(interfaceSvg, interfaces);
 
         // Add tooltips to the Manufacturer's Graph
         manufacturersPath.each(function(d,i) {
@@ -136,16 +120,6 @@ function drawGraphs () {
           });
         })
 
-        // Draw the graph for the Capacity Graph
-        var capacityPath = capacitySvg.selectAll('path')
-          .data(pie(capacities))
-          .enter()
-          .append('path')
-          .attr('d', arc)
-          .attr('fill', function(d, i) {
-            return color(d.data.label);
-          });
-
         // Add tooltips to the Capacity Graph
         capacityPath.each(function(d,i) {
           var total = d3.sum(capacities.map(function(d) {
@@ -160,16 +134,6 @@ function drawGraphs () {
           });
         })
 
-        // Draw the graph for the Status Graph
-        var statusPath = statusSvg.selectAll('path')
-          .data(pie(statuses))
-          .enter()
-          .append('path')
-          .attr('d', arc)
-          .attr('fill', function(d, i) {
-            return color(d.data.label);
-          });
-
         // Add tooltips to the Capacity Graph
         statusPath.each(function(d,i) {
           var total = d3.sum(statuses.map(function(d) {
@@ -183,16 +147,6 @@ function drawGraphs () {
             'trigger': 'hover focus'
           });
         })
-
-        // Draw the graph for the Interface Graph
-        var interfacePath = interfaceSvg.selectAll('path')
-          .data(pie(interfaces))
-          .enter()
-          .append('path')
-          .attr('d', arc)
-          .attr('fill', function(d, i) {
-            return color(d.data.label);
-          });
 
         // Add tooltips to the Capacity Graph
         interfacePath.each(function(d,i) {

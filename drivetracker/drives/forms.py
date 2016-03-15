@@ -50,6 +50,11 @@ class HardDriveForm(ModelForm):
         self.helper.form_id = 'hard-drive-form'
         self.helper.include_media = False
 
+        if self.instance and self.instance.capacity:
+            obj = bitmath.Byte(self.instance.capacity).best_prefix(bitmath.SI)
+            self.initial['unit'] = obj.unit
+            self.initial['capacity'] = obj.value
+
     def clean(self):
         cleaned_data = super(HardDriveForm, self).clean()
         capacity = cleaned_data.get('capacity', 0)

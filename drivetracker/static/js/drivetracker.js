@@ -240,7 +240,7 @@ $(document).ready(function() {
     lastDriveId = table.row(this).data().id;
     var form = $('#hard-drive-form');
     $.ajax({
-      url: driveFormUrl + '/' + lastDriveId + '/',
+      url: driveFormUrl + lastDriveId + '/',
       type: "GET",
       success: function(data) {
         $(form).replaceWith(data['form_html']);
@@ -254,7 +254,7 @@ $(document).ready(function() {
     var form = $('#hard-drive-form');
     var submissionUrl = driveFormUrl;
     if (lastDriveId != null) {
-       submissionUrl = driveFormUrl + '/' + lastDriveId + '/';
+       submissionUrl = driveFormUrl + lastDriveId + '/';
        lastDriveId = null;
     }
     $.ajax({

@@ -251,6 +251,7 @@ $(document).ready(function() {
       success: function(data) {
         $(form).replaceWith(data['form_html']);
         $('#add-new-drive-modal-label').text('Edit Drive ' + lastDriveId);
+        $('#delete-hard-drive-button').removeClass('hidden');
         $('#add-new-drive-modal').modal('show');
       }
     });
@@ -281,10 +282,33 @@ $(document).ready(function() {
     });
   });
 
+  $('#delete-hard-drive-button').on('click', function() {
+    $('#delete-warning').removeClass('hidden');
+    $('#delete-hard-drive-button').prop('disabled', true);
+  });
+
+  $('#confirm-delete-hard-drive-button').on('click', function() {
+    $.ajax({
+      url: driveDetailUrl + lastDriveId + '/',
+      type: "DELETE",
+      success: function(data) {
+        $('#add-new-drive-modal').modal('hide');
+      }
+    });
+  });
+
+  $('#cancel-delete-hard-drive-button').on('click', function() {
+    $('#delete-warning').addClass('hidden');
+    $('#delete-hard-drive-button').prop('disabled', false);
+  })
+
   $('#add-new-drive-modal').on('hidden.bs.modal', function() {
     $('#drive-table').DataTable().ajax.reload(null, false);
     drawGraphs();
     $('#add-new-drive-modal-label').text('Add New Drive');
+    $('#delete-hard-drive-button').addClass('hidden');
+    $('#delete-warning').addClass('hidden');
+    $('#delete-hard-drive-button').prop('disabled', false);
     var form = $('#hard-drive-form');
     $.ajax({
       url: driveFormUrl,

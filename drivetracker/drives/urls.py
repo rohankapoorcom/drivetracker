@@ -7,7 +7,7 @@ urlpatterns = [
     url(r'^$', views.home, name='drives_home'),
     url(r'^api/drives/$', views.HardDriveList.as_view(),
         name='api_drives_list'),
-    url(r'^api/drives/(?P<pk>[0-9]+)/$', views.HardDriveDetail.as_view(),
+    url(r'^api/drives/(?:(?P<pk>[0-9]+)/)?$', views.HardDriveDetail.as_view(),
         name='api_drives_detail'),
     url(r'^api/drives/form/(?:(?P<pk>[0-9]+)/)?$', views.edit_hard_drive_view,
         name='api_drives_form'),

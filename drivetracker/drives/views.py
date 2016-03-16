@@ -20,7 +20,7 @@ class HardDriveList(generics.ListAPIView):
         return context
 
 
-class HardDriveDetail(generics.RetrieveAPIView):
+class HardDriveDetail(generics.RetrieveDestroyAPIView):
     queryset = models.HardDrive.objects.all()
     serializer_class = HardDriveSerializer
 

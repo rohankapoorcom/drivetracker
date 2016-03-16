@@ -107,3 +107,16 @@ body {
 .chart {
   position: relative;
 }
+
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
+.modal-body .alert-block h4 {
+  font-size: 16px;
+  margin: 0;
+}

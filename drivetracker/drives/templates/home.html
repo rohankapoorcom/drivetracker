@@ -115,11 +115,23 @@
             <h4 class="modal-title" id="add-new-drive-modal-label">Add New Drive</h4>
           </div>
           <div class="modal-body">
-          {% crispy hard_drive_form %}
+            <div class="alert alert-danger alert-block fade in hidden clearfix" role="alert" id="delete-warning">
+              <h4 class="text-center">
+                <strong>Warning!</strong> Are you sure you want to delete this hard drive?
+              </h4>
+                <button type="button" class="btn btn-default pull-left" id="cancel-delete-hard-drive-button">Cancel</button>
+                <button type="button" class="btn btn-danger pull-right" id="confirm-delete-hard-drive-button"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+            </div>
+            {% crispy hard_drive_form %}
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="save-hard-drive-button">Submit</button>
+            <div class="float-left">
+              <button type="button" class="btn btn-danger hidden" id="delete-hard-drive-button"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+            </div>
+            <div class="float-right">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-success" id="save-hard-drive-button">Submit</button>
+            </div>
           </div>
         </div>
       </div>
@@ -133,6 +145,7 @@
     <script src="{% static 'js/bootstrap-datetimepicker.min.js' %}"></script>
     <script>
     var driveAPIUrl = "{% url 'api_drives_list' %}";
+    var driveDetailUrl = "{% url 'api_drives_detail' %}";
     var driveFormUrl = "{% url 'api_drives_form' %}";
     </script>
     <script src="{% static 'js/drivetracker.js' %}"></script>

@@ -21,7 +21,9 @@ DEBUG = False
 CRISPY_FAIL_SILENTLY = not DEBUG
 WHITENOISE_AUTOREFRESH = DEBUG
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'drivetracker-demo.herokuapp.com'
+]
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases

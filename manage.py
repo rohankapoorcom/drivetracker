@@ -3,7 +3,7 @@ import sys
 
 if __name__ == "__main__":
     if 'DATABASE_URL' in os.environ:
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "stockportfolio.settings.heroku")
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "drivetracker.settings.heroku")
     else:
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "drivetracker.settings.local")
 

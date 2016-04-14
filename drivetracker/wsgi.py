@@ -12,7 +12,10 @@ import os
 from django.core.wsgi import get_wsgi_application
 from whitenoise.django import DjangoWhiteNoise
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "drivetracker.settings.local")
+if 'DATABASE_URL' in os.environ:
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "drivetracker.settings.heroku")
+else:
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "drivetracker.settings.local")
 
 application = get_wsgi_application()
 application = DjangoWhiteNoise(application)

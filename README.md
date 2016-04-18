@@ -3,6 +3,10 @@ Drive Tracker
 
 Catalogue all of your hard drives with a beautiful web-based tool. Docker package coming soon.
 
+### Demo
+--------------
+Play with Drive Tracker on it's [demo site](https://drivetracker-demo.herokuapp.com)
+
 ### Features
 ---------------
 * Responsive web design - for use on desktop and mobile browsers
@@ -41,6 +45,13 @@ Catalogue all of your hard drives with a beautiful web-based tool. Docker packag
 6. Start Drive Tracker by executing ```gunicorn -b 0.0.0.0:8000 drivetracker.wsgi```
 7. You can access Drive Tracker from a web browser at ```yourip:8000```
 8. [Configure Gunicorn to start automatically](http://docs.gunicorn.org/en/stable/deploy.html)
+
+### Contributing
+---------------
+* Fork the project repository
+* Make all of your changes in a specific branch on your fork
+* Make sure your changes confirm to the [Style Guide for Python Code (PEP8)](http://python.org/dev/peps/pep-0008/)
+* Open a pull request
 
 ### License
 Please see [LICENSE](LICENSE)

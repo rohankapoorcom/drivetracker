@@ -1,10 +1,10 @@
-from django import forms
-from django.forms import ModelForm
+import bitmath
 from crispy_forms.helper import FormHelper
 from dal import autocomplete
+from django import forms
+from django.forms import ModelForm
 
 import drivetracker.drives.models as models
-import bitmath
 
 
 def get_capacity_units():

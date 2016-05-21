@@ -1,9 +1,9 @@
 from __future__ import unicode_literals
 
-from django.db import models
-
 from random import randint
+
 import bitmath
+from django.db import models
 
 
 def generate_id():

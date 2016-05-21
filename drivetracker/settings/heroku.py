@@ -8,8 +8,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
-from drivetracker.settings.base import *
 import dj_database_url
+
+from drivetracker.settings.base import *
 
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 

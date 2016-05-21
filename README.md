@@ -56,5 +56,18 @@ Play with Drive Tracker on it's [demo site](https://drivetracker-demo.herokuapp.
 * Make sure your changes confirm to the [Style Guide for Python Code (PEP8)](http://python.org/dev/peps/pep-0008/)
 * Open a pull request
 
+### Sort your Imports
+`isort -rc --atomic .`
+
+### Check for PEP-8 compatability
+`flake8 drivetracker`
+
+### Generating Documentation
+To autodoc/generate templates:
+`sphinx-apidoc -f -o docs/ drivetracker/ drivetracker/*/migrations drivetracker/settings`
+
+To build the html pages:
+`cd docs; make html`
+
 ### License
 Please see [LICENSE](LICENSE)

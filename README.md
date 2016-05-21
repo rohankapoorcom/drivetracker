@@ -1,5 +1,8 @@
 Drive Tracker
 ===================
+[![Build Status](https://travis-ci.org/rohankapoorcom/drivetracker.svg?branch=master)](https://travis-ci.org/rohankapoorcom/drivetracker)
+[![Coverage Status](https://coveralls.io/repos/github/rohankapoorcom/drivetracker/badge.svg?branch=master)](https://coveralls.io/github/rohankapoorcom/drivetracker?branch=master)
+[![Documentation Status](https://readthedocs.org/projects/drivetracker/badge/?version=latest)](http://drivetracker.readthedocs.io/en/latest/?badge=latest)
 
 Catalogue all of your hard drives with a beautiful web-based tool. Docker package coming soon.
 

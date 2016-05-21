@@ -1,0 +1,7 @@
+[run]
+omit = drivetracker/drives/migrations/*
+       drivetracker/drives/management/*
+       drivetracker/settings/*
+       drivetracker/urls.py
+       drivetracker/drives/urls.py
+       drivetracker/drives/admin.py

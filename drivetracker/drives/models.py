@@ -106,7 +106,7 @@ class HardDrive(models.Model):
         Converts the capacity in bytes to the appropriate value for display
         """
         if not self.capacity:
-            return''
+            return ''
         return (bitmath.Byte(self.capacity)
                 .best_prefix(bitmath.SI)
                 .format("{value} {unit}"))

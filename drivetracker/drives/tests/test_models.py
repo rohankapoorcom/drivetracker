@@ -194,3 +194,66 @@ class HardDriveTestCase(TestCase):
         # reload from db to make the object has change
         hd = models.HardDrive.objects.get(id=hd_id)
         self.assertEqual(hd.model, None)
+
+    def test_get_capacity_representation_blank(self):
+        """
+        Verifies that the capacity is represented as an empty string instead
+        of a None object
+        """
+        blank_hd = models.HardDrive()
+        self.assertEqual(blank_hd.get_capacity_representation(), '')
+
+    def test_get_capacity_representation_non_blank(self):
+        """
+        Verifies that the capacity is correctly converted from bytes to the
+        correct unit
+        """
+        hd = models.HardDrive(capacity=120000000000)
+        self.assertEqual(hd.get_capacity_representation(), '120.0 GB')
+
+    def test_get_in_use_representation_none(self):
+        """
+        Verifies that an unset in_use flag (None) is converted to 'Unknown'
+        """
+        hd = models.HardDrive()
+        self.assertEqual(hd.get_in_use_representation(), 'Unknown')
+
+    def test_get_in_use_representation_true(self):
+        """Verifies that a True in_use flag is converted to 'Yes'"""
+        hd = models.HardDrive(in_use=True)
+        self.assertEqual(hd.get_in_use_representation(), 'Yes')
+
+    def test_get_in_use_representation_false(self):
+        """Verifies that a False in_use flag is converted to 'No'"""
+        hd = models.HardDrive(in_use=False)
+        self.assertEqual(hd.get_in_use_representation(), 'No')
+
+    def test_get_status_representation_none(self):
+        """
+        Verifies that an unset status flag (None) is converted to 'Unknown'
+        """
+        hd = models.HardDrive()
+        self.assertEqual(hd.get_status_representation(), 'Unknown')
+
+    def test_get_status_representation_true(self):
+        """Verifies that a True status flag is converted to 'Good'"""
+        hd = models.HardDrive(status=True)
+        self.assertEqual(hd.get_status_representation(), 'Good')
+
+    def test_get_status_representation_false(self):
+        """Verifies that a False status flag is converted to 'Dead'"""
+        hd = models.HardDrive(status=False)
+        self.assertEqual(hd.get_status_representation(), 'Dead')
+
+    def test_get_interface_representation_none(self):
+        """Verifies that an unset interface is converted to 'Unknown'"""
+        hd = models.HardDrive()
+        self.assertEqual(hd.get_interface_representation(), 'Unknown')
+
+    def test_get_interface_representation_set(self):
+        """
+        Verifies that the value for the set interface is passed straight
+        through
+        """
+        hd = models.HardDrive(interface='SAS')
+        self.assertEqual(hd.get_interface_representation(), 'SAS')

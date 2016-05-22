@@ -52,14 +52,6 @@ drivetracker.drives.serializers module
     :undoc-members:
     :show-inheritance:
 
-drivetracker.drives.tests module
---------------------------------
-
-.. automodule:: drivetracker.drives.tests
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 drivetracker.drives.urls module
 -------------------------------
 

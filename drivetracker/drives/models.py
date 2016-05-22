@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from random import randint
+import random
 
 import bitmath
 from django.db import models
@@ -8,9 +8,9 @@ from django.db import models
 
 def generate_id():
     """Generates a unique 10 digit identifier"""
-    candidate = randint(1000000000, 9999999999)
+    candidate = random.randint(1000000000, 9999999999)
     while HardDrive.objects.filter(id=candidate).count() > 0:
-        candidate = randint(1000000000, 9999999999)
+        candidate = random.randint(1000000000, 9999999999)
     return candidate
 
 

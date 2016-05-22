@@ -1,27 +1,26 @@
-import random
-
-import mock
 from django.db import IntegrityError
 from django.test import TestCase
+from mock import patch
 
 import drivetracker.drives.models as models
+
+count = 0
+
+
+def mock_rand_int(min_int, max_int):
+    """A fake random integer generator for the first three calls"""
+    global count
+    if count < 3:
+        count += 1
+        return 1
+    else:
+        import random
+        return random.randint(min_int, max_int)
 
 
 class TopLevelFunctionTestCase(TestCase):
     """Unit tests for top level functionality in the models module"""
-    @classmethod
-    def setupTestData(cls):
-        cls.count = 0
 
-    @classmethod
-    def mock_rand_int(cls):
-        """A fake random integer generator for the first three calls"""
-        if cls.count < 3:
-            return 1
-        else:
-            return random.randint
-
-    @mock.patch('random.randint', mock_rand_int)
     def test_generate_id_mock_randint(self):
         """
         Tests the generate_id function to make sure the fail condition leads
@@ -29,7 +28,8 @@ class TopLevelFunctionTestCase(TestCase):
         """
         hd = models.HardDrive()
         hd.save()
-        self.assertTrue(models.generate_id(), hd.id)
+        with patch('random.randint', mock_rand_int):
+            self.assertTrue(models.generate_id(), hd.id)
 
 
 class HostTestCase(TestCase):

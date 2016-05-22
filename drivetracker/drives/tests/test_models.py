@@ -1,6 +1,6 @@
+import mock
 from django.db import IntegrityError
 from django.test import TestCase
-from mock import patch
 
 import drivetracker.drives.models as models
 
@@ -14,13 +14,13 @@ def mock_rand_int(min_int, max_int):
         count += 1
         return 1
     else:
-        import random
-        return random.randint(min_int, max_int)
+        return 4
 
 
 class TopLevelFunctionTestCase(TestCase):
     """Unit tests for top level functionality in the models module"""
 
+    @mock.patch('random.randint', mock_rand_int)
     def test_generate_id_mock_randint(self):
         """
         Tests the generate_id function to make sure the fail condition leads
@@ -28,8 +28,7 @@ class TopLevelFunctionTestCase(TestCase):
         """
         hd = models.HardDrive()
         hd.save()
-        with patch('random.randint', mock_rand_int):
-            self.assertTrue(models.generate_id(), hd.id)
+        self.assertTrue(models.generate_id(), hd.id)
 
 
 class HostTestCase(TestCase):

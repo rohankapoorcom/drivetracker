@@ -1,6 +1,7 @@
 from django.test import TestCase
-from drivetracker.drives.serializers import HardDriveSerializer
+
 from drivetracker.drives import models
+from drivetracker.drives.serializers import HardDriveSerializer
 
 
 class HardDriveSeralizerTestCase(TestCase):

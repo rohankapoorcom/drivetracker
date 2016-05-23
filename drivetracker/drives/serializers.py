@@ -21,6 +21,6 @@ class HardDriveSerializer(serializers.ModelSerializer):
                   'service_start_date', 'service_end_date', 'notes')
 
     def _get_capacity_representation(self, obj):
-        if self.context['representation'] == 'original':
+        if self.context.get('representation', None) == 'original':
             return obj.capacity
         return obj.get_capacity_representation()

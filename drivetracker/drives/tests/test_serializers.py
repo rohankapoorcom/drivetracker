@@ -166,6 +166,39 @@ class HardDriveSeralizerTestCase(TestCase):
         actual_value.pop('id', None)
         self.assertEqual(actual_value, expected_value)
 
+    def test_serializing_with_capacity_and_context(self):
+        """
+        Verify that a HardDrive with a capacity and the original context flag
+        shows the capacity correctly in bytes
+        """
+        hd = models.HardDrive(capacity=120000000000)
+        hd.save()
+        expected_value = {
+            'status': 'Unknown',
+            'service_end_date': None,
+            'position': '',
+            'capacity': 120000000000L,
+            'in_use': 'Unknown',
+            'notes': '',
+            'warranty_date': None,
+            'service_start_date': None,
+            'host': None,
+            'purchase_date': None,
+            'form_factor': '',
+            'interface': 'Unknown',
+            'media_type': '',
+            'model': None,
+            'rpm': None,
+            'id': 9523044409L,
+            'serial': '',
+            'manufacturer': None
+        }
+        context = {'representation': 'original'}
+        expected_value.pop('id', None)
+        actual_value = HardDriveSerializer(hd, context=context).data
+        actual_value.pop('id', None)
+        self.assertEqual(actual_value, expected_value)
+
     def test_serializing_with_in_use(self):
         """
         Verify that a HardDrive with the in_use flag set displays it correctly
